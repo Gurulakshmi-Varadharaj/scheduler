@@ -13,4 +13,17 @@ const getAppointmentsForDay = (state, day) => {
   return result;
 };
 
-export { getAppointmentsForDay };
+const getInterview = (state, interview) => {
+  if (interview === null) {
+    return null;
+  }
+  const interviwerList = { ...interview };
+  Object.keys(state.interviewers).forEach(key => {
+    if (key == interview.interviewer) {
+      interviwerList.interviewer = state.interviewers[key];
+    }
+  });
+  return (interviwerList);
+};
+
+export { getAppointmentsForDay, getInterview };
