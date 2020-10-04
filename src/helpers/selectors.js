@@ -18,7 +18,7 @@ const getInterview = (state, interview) => {
     return null;
   }
   const interviwerList = { ...interview };
-  Object.keys(state.interviewers).forEach(key => {
+  Object.keys(state.interviewers).map(key => {
     if (key == interview.interviewer) {
       interviwerList.interviewer = state.interviewers[key];
     }
