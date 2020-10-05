@@ -67,8 +67,7 @@ function Application(props) {
         ...state.appointments,
         [id]: appointment
       };
-      console.log(id, interview);
-      //return setState({ ...state, appointments });
+      /***To store the appointment data in API*/
       return (axios.delete(`/api/appointments/${id}`, appointment)
         .then(res => {
           setState({ ...state, appointments });

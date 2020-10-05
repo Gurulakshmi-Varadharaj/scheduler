@@ -8,7 +8,8 @@ import Show from "components/Appointment/Show";
 import Empty from "components/Appointment/Empty";
 import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
-import Confirm from "components/Appointment/Confirm"
+import Confirm from "components/Appointment/Confirm";
+import Error from "components/Appointment/Error";
 
 import { useVisualMode } from "hooks/useVisualMode";
 
@@ -20,8 +21,10 @@ function Appointment(props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
-  let { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
+  const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
 
   function save(name, interviewer) {
     const interview = {
@@ -32,6 +35,9 @@ function Appointment(props) {
     props.bookInterview(props.id, interview)
       .then(res => {
         transition(SHOW);
+      })
+      .catch(error => {
+        transition(ERROR_SAVE, true)
       });
   };
 
@@ -42,7 +48,10 @@ function Appointment(props) {
       .then(res => {
         transition(EMPTY);
       })
-  }
+      .catch(res => {
+        transition(ERROR_DELETE, true);
+      });
+  };
 
   //Render the component based on the custom Hook retun value
   return (
@@ -99,6 +108,20 @@ function Appointment(props) {
             onSave={() => props.onSave}
             onCancel={() => back()}
           />
+        )
+      }
+      {
+        mode === ERROR_SAVE && (
+          <Error
+            message="Could not save appointment."
+            onClose={() => back()} />
+        )
+      }
+      {
+        mode === ERROR_DELETE && (
+          <Error
+            message="Could not delete appointment."
+            onClose={() => back()} />
         )
       }
     </article >
