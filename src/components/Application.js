@@ -41,6 +41,7 @@ function Application(props) {
   /****Iterating over Appointments */
   const appointmentList = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
+    /***Called when we book an Inteview from Appointment/index.js**/
     function bookInterview(id, interview) {
       const appointment = {
         ...state.appointments[id],
@@ -50,13 +51,30 @@ function Application(props) {
         ...state.appointments,
         [id]: appointment
       };
-
-      //return setState({ ...state, appointments });
+      /***To store the appointment data in API*/
       return (axios.put(`/api/appointments/${id}`, appointment)
         .then(res => {
           setState({ ...state, appointments });
         }));
     }
+
+    function cancelInterview(id, interview) {
+      const appointment = {
+        ...state.appointments[id],
+        interview: interview
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      console.log(id, interview);
+      //return setState({ ...state, appointments });
+      return (axios.delete(`/api/appointments/${id}`, appointment)
+        .then(res => {
+          setState({ ...state, appointments });
+        }));
+    }
+
     return (
       <Appointment
         key={appointment.id}
@@ -65,6 +83,7 @@ function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />);
   });
 
