@@ -29,7 +29,7 @@ function Form(props) {
             type="text"
             placeholder="Enter Student Name"
             /*
-              This must be a controlled component
+              controlled component
             */
             value={name}
             onChange={event => setName(event.target.value)}
@@ -40,7 +40,10 @@ function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={event => props.onSave(name, interviewer)}>Save</Button>
+          <Button confirm onClick={event => {
+            props.save(name, interviewer)
+            props.onSave(name, interviewer)
+          }}>Save</Button>
         </section>
       </section>
     </main>

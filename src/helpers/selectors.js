@@ -13,12 +13,28 @@ const getAppointmentsForDay = (state, day) => {
   return result;
 };
 
+/***getInterviewersForDay***/
+const getInterviewersForDay = (state, day) => {
+  const result = [];
+  const filteredInterviewers = state.days.filter(stateDay => stateDay.name === day);
+  if (filteredInterviewers.length > 0) {
+    for (let interviewer of filteredInterviewers[0].interviewers) {
+      for (let key in state.interviewers) {
+        if (interviewer == key) {
+          result.push(state.interviewers[key]);
+        }
+      }
+    }
+  }
+  return result;
+};
+
 const getInterview = (state, interview) => {
   if (interview === null) {
     return null;
   }
   const interviwerList = { ...interview };
-  Object.keys(state.interviewers).map(key => {
+  Object.keys(state.interviewers).forEach(key => {
     if (key == interview.interviewer) {
       interviwerList.interviewer = state.interviewers[key];
     }
@@ -26,4 +42,4 @@ const getInterview = (state, interview) => {
   return (interviwerList);
 };
 
-export { getAppointmentsForDay, getInterview };
+export { getAppointmentsForDay, getInterview, getInterviewersForDay };
