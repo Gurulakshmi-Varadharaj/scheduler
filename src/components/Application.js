@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-import axios from "axios";
+import React from "react";
 
 import "components/Application.scss";
 
@@ -8,31 +6,16 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors"
 
+//Custom Hoook
+import { useApplicationData } from "hooks/useApplicationData"
+
 function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {
-      "1": {
-        id: 1,
-        time: "12pm",
-        interview: null
-      }
-    },
-    interviewers: {}
-  });
-
-  const setDay = day => setState({ ...state, day });
-
-  useEffect(() => {
-    Promise.all([
-      axios.get("/api/days"),
-      axios.get("/api/appointments"),
-      axios.get("/api/interviewers"),
-    ]).then((all) => {
-      setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
-    })
-  }, []);
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -41,39 +24,6 @@ function Application(props) {
   /****Iterating over Appointments */
   const appointmentList = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-    /***Called when we book an Inteview from Appointment/index.js**/
-    function bookInterview(id, interview) {
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      /***To store the appointment data in API*/
-      return (axios.put(`/api/appointments/${id}`, appointment)
-        .then(res => {
-          setState({ ...state, appointments });
-        }));
-    }
-
-    function cancelInterview(id, interview) {
-      const appointment = {
-        ...state.appointments[id],
-        interview: interview
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      /***To store the appointment data in API*/
-      return (axios.delete(`/api/appointments/${id}`, appointment)
-        .then(res => {
-          setState({ ...state, appointments });
-        }));
-    }
-
     return (
       <Appointment
         key={appointment.id}

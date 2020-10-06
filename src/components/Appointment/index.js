@@ -11,6 +11,7 @@ import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
 import Error from "components/Appointment/Error";
 
+//Custom hook to set mode and Hitory based on change in mode
 import { useVisualMode } from "hooks/useVisualMode";
 
 function Appointment(props) {
