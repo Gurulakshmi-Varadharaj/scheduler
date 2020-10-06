@@ -42,7 +42,10 @@ const useApplicationData = function () {
     /***To store the appointment data in API*/
     return (axios.put(`/api/appointments/${id}`, appointment)
       .then(res => {
-        setState({ ...state, appointments });
+        const dayFound = state.days.find(dayObj => dayObj.name === state.day);
+        dayFound.spots--;
+        const days = [...state.days];
+        setState({ ...state, days, appointments });
       }));
   }
 
@@ -58,7 +61,10 @@ const useApplicationData = function () {
     /***To store the appointment data in API*/
     return (axios.delete(`/api/appointments/${id}`, appointment)
       .then(res => {
-        setState({ ...state, appointments });
+        const dayFound = state.days.find(dayObj => dayObj.name === state.day);
+        dayFound.spots++;
+        const days = [...state.days];
+        setState({ ...state, days, appointments });
       }));
   }
 
