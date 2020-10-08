@@ -4,6 +4,11 @@ import "components/InterviewerList.scss"
 
 import InterviewerListItem from "components/InterviewerListItem"
 
+import protoTypes from "prop-types";
+
+//Validating Props
+
+
 function InterviewerList(props) {
   const lisfOfInterviwers = props.interviewers.map(interviewer =>
     < InterviewerListItem
@@ -24,5 +29,9 @@ function InterviewerList(props) {
     </section>
   );
 }
+
+InterviewerList.protoTypes = {
+  interviewers: protoTypes.array.isRequired
+};
 
 export default InterviewerList;

@@ -45,7 +45,7 @@ const useApplicationData = function () {
         const dayFound = state.days.find(dayObj => dayObj.name === state.day);
         dayFound.spots--;
         const days = [...state.days];
-        setState({ ...state, days, appointments });
+        setState({ ...state, appointments, days });
       }));
   }
 

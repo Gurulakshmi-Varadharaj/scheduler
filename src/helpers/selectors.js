@@ -13,7 +13,6 @@ const getAppointmentsForDay = (state, day) => {
   return result;
 };
 
-/***getInterviewersForDay***/
 const getInterviewersForDay = (state, day) => {
   const result = [];
   const filteredInterviewers = state.days.filter(stateDay => stateDay.name === day);

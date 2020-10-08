@@ -7,6 +7,7 @@ function Form(props) {
   //Use State
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [error, setError] = useState("");
 
   const reset = () => {
     setName("");
@@ -17,6 +18,17 @@ function Form(props) {
   const cancel = () => {
     reset();
     props.onCancel();
+  };
+
+  //Validating Inputs
+  const validate = () => {
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
+    props.save(name, interviewer);
+    props.onSave(name, interviewer);
+    setError("");
   };
 
   return (
@@ -33,16 +45,17 @@ function Form(props) {
             */
             value={name}
             onChange={event => setName(event.target.value)}
+            data-testid="student-name-input"
           />
         </form>
+        <section className="appointment__validation">{error}</section>
         <InterviewerList interviewers={props.interviewers} interviewer={interviewer} setInterviewer={setInterviewer} />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
           <Button confirm onClick={event => {
-            props.save(name, interviewer)
-            props.onSave(name, interviewer)
+            validate()
           }}>Save</Button>
         </section>
       </section>
