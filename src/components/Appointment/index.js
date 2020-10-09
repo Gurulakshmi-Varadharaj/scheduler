@@ -34,7 +34,7 @@ function Appointment(props) {
     };
     transition(SAVING);
     props.bookInterview(props.id, interview)
-      .then(res => {
+      .then(() => {
         transition(SHOW);
       })
       .catch(error => {
@@ -56,16 +56,15 @@ function Appointment(props) {
 
   //Render the component based on the custom Hook retun value
   return (
-    < article className="appointment" >
+    < article className="appointment" data-testid="appointment" >
       <Header time={props.time} />
       { mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {
         mode === CREATE && (
           <Form
-            save={save}
             interviewers={props.interviewers}
-            onSave={() => props.onSave}
-            onCancel={() => back()}
+            onSave={save}
+            onCancel={back}
           />
         )
       }
@@ -87,10 +86,9 @@ function Appointment(props) {
       {
         mode === CONFIRM && (
           <Confirm
-            cancel={cancel}
             message="Delete the appointment?"
-            onConfirm={() => props.onConfirm}
-            onCancel={() => back()}
+            onConfirm={cancel}
+            onCancel={back}
           />
         )
       }
@@ -102,12 +100,11 @@ function Appointment(props) {
       {
         mode === EDIT && (
           <Form
-            save={save}
             name={props.interview.student}
             interviewers={props.interviewers}
             interviewer={props.interview.interviewer.id}
-            onSave={() => props.onSave()}
-            onCancel={() => back()}
+            onSave={save}
+            onCancel={back}
           />
         )
       }
@@ -115,14 +112,14 @@ function Appointment(props) {
         mode === ERROR_SAVE && (
           <Error
             message="Could not save appointment."
-            onClose={() => back()} />
+            onClose={back} />
         )
       }
       {
         mode === ERROR_DELETE && (
           <Error
             message="Could not delete appointment."
-            onClose={() => back()} />
+            onClose={back} />
         )
       }
     </article >

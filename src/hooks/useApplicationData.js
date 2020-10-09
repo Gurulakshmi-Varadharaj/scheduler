@@ -39,12 +39,13 @@ const useApplicationData = function () {
       ...state.appointments,
       [id]: appointment
     };
+
+    const dayFound = state.days.find(dayObj => dayObj.name === state.day);
+    dayFound.spots--;
+    const days = [...state.days];
     /***To store the appointment data in API*/
     return (axios.put(`/api/appointments/${id}`, appointment)
-      .then(res => {
-        const dayFound = state.days.find(dayObj => dayObj.name === state.day);
-        dayFound.spots--;
-        const days = [...state.days];
+      .then(() => {
         setState({ ...state, appointments, days });
       }));
   }

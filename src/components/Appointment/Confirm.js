@@ -10,7 +10,6 @@ function Confirm(props) {
         <Button danger onClick={props.onCancel}>Cancel</Button>
         <Button danger onClick={event => {
           props.onConfirm()
-          props.cancel()
         }}>Confirm</Button>
       </section>
     </main>

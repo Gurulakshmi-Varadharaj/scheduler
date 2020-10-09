@@ -26,7 +26,7 @@ function Form(props) {
       setError("Student name cannot be blank");
       return;
     }
-    props.save(name, interviewer);
+    //props.save(name, interviewer);
     props.onSave(name, interviewer);
     setError("");
   };
