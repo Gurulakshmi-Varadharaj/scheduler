@@ -25,4 +25,8 @@ npm run storybook
 ```
 ## Final Product
 
+![Initial Page of Interview Scheduler](https://github.com/Gurulakshmi-Varadharaj/scheduler/blob/master/public/Screenshot/Interview%20Scheduler%20Initial%20Page.png)
+
 ![Book new Appointment](https://github.com/Gurulakshmi-Varadharaj/scheduler/blob/master/public/Screenshot/Book%20a%20new%20Appointment.png)
+
+![Delete an Appointment](https://github.com/Gurulakshmi-Varadharaj/scheduler/blob/master/public/Screenshot/Delete%20an%20Appointment.png)
